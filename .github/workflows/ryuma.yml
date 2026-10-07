@@ -1,0 +1,28 @@
+name: Ryuma Dylib
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: |
+          xcrun --sdk iphoneos clang \
+            -arch arm64 \
+            -dynamiclib \
+            -fobjc-arc \
+            -framework UIKit \
+            -framework Foundation \
+            RyumaGradient.m \
+            -o RyumaGradient.dylib
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: RyumaDylib
+          path: RyumaGradient.dylib
